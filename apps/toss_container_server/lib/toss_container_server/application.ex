@@ -6,7 +6,7 @@ defmodule TossContainerServer.Application do
   def start(_type, _args) do
     # TODO config file
     children = [
-      Plug.Adapters.Cowboy2.child_spec(scheme: :http, plug: TossContainerServer.Router, options: [port: 4000])
+      Plug.Adapters.Cowboy.child_spec(scheme: :http, plug: TossContainerServer.Router, options: [port: 4000])
     ]
 
     opts = [strategy: :one_for_one, name: TossContainerServer.Supervisor]

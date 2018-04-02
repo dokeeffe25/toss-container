@@ -14,12 +14,19 @@ defmodule TossContainer.Watcher do
   end
 
   def handle_info({:file_event, watcher_pid, {path, events}}, state) do
-    # TODO spawn process here to perform http request?
-    # TODO config server location
-    test_resp = HTTPoison.get("http://localhost:4000/hello")
-    IO.puts(path)
     IO.inspect(events)
-    IO.inspect(test_resp)
+    case List.last(events) do
+      :removed ->
+        IO.puts "REMOVED"
+        HTTPoison.delete("http://localhost:4000/delete")
+      :created ->
+        IO.puts "CREATED"
+      :modified ->
+        IO.puts "MODIFIED"
+      _ ->
+        IO.puts "NONE"
+    end
+
     {:noreply, state}
   end
 
